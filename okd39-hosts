@@ -1,0 +1,45 @@
+##################   test-openshift  ######################
+[OSEv3:children]
+masters
+nodes
+etcd
+glusterfs
+
+[OSEv3:vars]
+openshift_release=3.9
+ansible_ssh_user=root
+openshift_deployment_type=origin
+os_firewall_use_firewalld=true
+openshift_disable_check=disk_availability,memory_availability
+openshift_docker_options='--selinux-enabled --insecure-registry 172.30.0.0/16'
+
+openshift_master_dynamic_provisioning_enabled=True
+openshift_master_default_subdomain='dev.lab'
+openshift_master_cluster_public_hostname='dev.lab'
+openshift_master_cluster_hostname='dev.lab'
+
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+# Mot de passe en base64 - soit ici ‘password’
+openshift_master_htpasswd_users={'admin': '$apr1$tVo0LX88$njLp8voYeRNLqfQZZrZeI0'}
+
+openshift_storage_glusterfs_storageclass_default=true
+
+[masters]
+okd-master.lab
+
+[etcd]
+okd-master.lab 
+okd-infra.lab
+okd-app1.lab
+
+[glusterfs]
+okd-master.lab glusterfs_devices='[ "/dev/vdb" ]'
+okd-infra.lab glusterfs_devices='[ "/dev/vdb" ]'
+okd-app1.lab glusterfs_devices='[ "/dev/vdb" ]'
+
+[nodes]
+okd-master.lab openshift_schedulable=true openshift_node_labels="{'role':'master'}"
+okd-infra.lab openshift_schedulable=true openshift_node_labels="{'region': 'infra'}"
+okd-app1.lab openshift_schedulable=true
+
+################## test-openshift  ######################
