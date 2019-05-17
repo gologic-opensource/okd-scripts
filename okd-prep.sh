@@ -50,6 +50,7 @@ else
   then
     blockdevice=sdc
   elif [ -b "/dev/vdc" ]
+  then
     blockdevice=vdc
   fi
   cat << EOF >> /etc/sysconfig/docker-storage-setup
