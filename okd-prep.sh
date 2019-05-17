@@ -46,11 +46,9 @@ else
   #DOCKER SETUP
   yum install docker-1.13.1 -y
   rm -rf /etc/sysconfig/docker-storage-setup
-  if [ -b "/dev/sdc" ]
-  then
+  if [ -b "/dev/sdc" ]; then
     blockdevice=sdc
-  elif [ -b "/dev/vdc" ]
-  then
+  elif [ -b "/dev/vdc" ]; then
     blockdevice=vdc
   fi
   cat << EOF >> /etc/sysconfig/docker-storage-setup
