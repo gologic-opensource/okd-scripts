@@ -52,7 +52,7 @@ else
     blockdevice=vdc
   fi
   cat << EOF >> /etc/sysconfig/docker-storage-setup
-DEVS=\$blockdevice
+DEVS=$blockdevice
 VG=docker-vg
 EOF
   docker-storage-setup 
